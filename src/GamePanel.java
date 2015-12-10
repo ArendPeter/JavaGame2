@@ -8,6 +8,9 @@ public class GamePanel extends JPanel {
 
 	int playerX = 10; 
 	int playerY = 10; 
+	
+	boolean right = true;
+	boolean down = false;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Game");
@@ -40,7 +43,21 @@ public class GamePanel extends JPanel {
 	}
 	
 	private void gameLoop(){
-		playerX++;
+		if(playerX+50 > getWidth()){
+			right = false;
+		}
+		if(playerX < 0){
+			right = true;
+		}
+		if(playerY+50 > getHeight()){
+			down = false;
+		}
+		if(playerY < 0){
+			down = true;
+		}
+
+		playerX += (right)? 5 : -5;
+		playerY += (down)? 5 : -5;
 	}
 
 
