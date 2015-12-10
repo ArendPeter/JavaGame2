@@ -6,6 +6,9 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel {
 
+	int playerX = 10; 
+	int playerY = 10; 
+
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Game");
 		frame.setSize(800,600);
@@ -20,7 +23,26 @@ public class GamePanel extends JPanel {
 		frame.setVisible(true);
 	}
 	
-	public GamePanel(){}
+	private GamePanel(){
+		new Thread(){
+			public void run(){
+				try{
+					while(true){
+						gameLoop();
+						repaint();
+						Thread.sleep(33);
+					}
+				}catch(InterruptedException e){
+					e.printStackTrace();
+				}
+			}
+		}.start();
+	}
+	
+	private void gameLoop(){
+		playerX++;
+	}
+
 
 	@Override
 	protected void paintComponent(Graphics g) {
@@ -28,11 +50,6 @@ public class GamePanel extends JPanel {
 		g.fillRect(0, 0, getWidth(), getHeight());
 
 		g.setColor(Color.ORANGE);
-		g.fillRect(10,20,50,50);
-		g.drawRect(100,20,50,50);
-		
-		g.setColor(Color.RED);
-		g.drawLine(300, 100, 500, 500);
-		
+		g.fillRect(playerX,playerY,50,50);
 	}
 }
