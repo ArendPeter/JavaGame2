@@ -55,20 +55,33 @@ public class GamePanel extends JPanel implements KeyListener{
 		boolean verticalInput = upHeld || downHeld;
 		boolean horizontalInput = leftHeld || rightHeld;
 
-		if(upHeld && !horizontalInput){
-			playerY-=8;
-		}
-		if(upHeld && horizontalInput){
+		if(upHeld){
+			if(!horizontalInput){
+				playerY-=8;
+			}else{
 				playerY-= (int)(8 / sqrt2);
+			}
 		}
 		if(downHeld){
-			playerY+=8;
-		}
-		if(rightHeld){
-			playerX+=8;
+			if(!horizontalInput){
+				playerY+=8;
+			}else{
+				playerY+= (int)(8 / sqrt2);
+			}
 		}
 		if(leftHeld){
-			playerX-=8;
+			if(!verticalInput){
+				playerX-=8;
+			}else{
+				playerX-= (int)(8 / sqrt2);
+			}
+		}
+		if(rightHeld){
+			if(!verticalInput){
+				playerX+=8;
+			}else{
+				playerX+= (int)(8 / sqrt2);
+			}
 		}
 	}
 
