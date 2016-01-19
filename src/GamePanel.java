@@ -1,16 +1,21 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements KeyListener{
 
-	int playerX = 10; 
-	int playerY = 10; 
-	
-	boolean right = true;
-	boolean down = false;
+	int playerX = 10;
+	int playerY = 10;
+
+	boolean upHeld = false;
+	boolean downHeld = false;
+	boolean rightHeld = false;
+	boolean leftHeld = false;
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Game");
@@ -18,15 +23,18 @@ public class GamePanel extends JPanel {
 		frame.setResizable(false);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
-		
+
 		GamePanel panel = new GamePanel();
-		
+
 		frame.add(panel);
-		
+
 		frame.setVisible(true);
 	}
-	
+
 	private GamePanel(){
+		this.addKeyListener(this);
+		setFocusable(true);
+		requestFocus();
 		new Thread(){
 			public void run(){
 				try{
@@ -41,23 +49,27 @@ public class GamePanel extends JPanel {
 			}
 		}.start();
 	}
-	
-	private void gameLoop(){
-		if(playerX+50 > getWidth()){
-			right = false;
-		}
-		if(playerX < 0){
-			right = true;
-		}
-		if(playerY+50 > getHeight()){
-			down = false;
-		}
-		if(playerY < 0){
-			down = true;
-		}
 
-		playerX += (right)? 5 : -5;
-		playerY += (down)? 5 : -5;
+	private void gameLoop(){
+		double sqrt2 = Math.sqrt(2);
+		boolean verticalInput = upHeld || downHeld;
+		boolean horizontalInput = leftHeld || rightHeld;
+
+		if(upHeld && !horizontalInput){
+			playerY-=8;
+		}
+		if(upHeld && horizontalInput){
+				playerY-= (int)(8 / sqrt2);
+		}
+		if(downHeld){
+			playerY+=8;
+		}
+		if(rightHeld){
+			playerX+=8;
+		}
+		if(leftHeld){
+			playerX-=8;
+		}
 	}
 
 
@@ -69,4 +81,45 @@ public class GamePanel extends JPanel {
 		g.setColor(Color.ORANGE);
 		g.fillRect(playerX,playerY,50,50);
 	}
+
+	@Override
+	public void keyPressed(KeyEvent e){
+		int key = e.getKeyCode();
+		switch(key){
+		case KeyEvent.VK_UP:
+			upHeld = true;
+			break;
+		case KeyEvent.VK_DOWN:
+			downHeld = true;
+			break;
+		case KeyEvent.VK_LEFT:
+			leftHeld = true;
+			break;
+		case KeyEvent.VK_RIGHT:
+			rightHeld = true;
+			break;
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e){
+		int key = e.getKeyCode();
+		switch(key){
+		case KeyEvent.VK_UP:
+			upHeld = false;
+			break;
+		case KeyEvent.VK_DOWN:
+			downHeld = false;
+			break;
+		case KeyEvent.VK_LEFT:
+			leftHeld = false;
+			break;
+		case KeyEvent.VK_RIGHT:
+			rightHeld = false;
+			break;
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e){}
 }
