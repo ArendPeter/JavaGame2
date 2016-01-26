@@ -7,7 +7,18 @@ public class KeyboardController implements KeyListener{
 	private boolean rightHeld = false;
 	private boolean leftHeld = false;
 	
-	public KeyboardController(){}
+	//singleton
+	private static KeyboardController instance;
+	
+	public static KeyboardController getInstance(){
+		if(instance == null){
+			instance = new KeyboardController();
+		}
+		return instance;
+	}
+	//end-singleton
+	
+	private KeyboardController(){}
 	
 	@Override
 	public void keyPressed(KeyEvent e){
@@ -50,19 +61,19 @@ public class KeyboardController implements KeyListener{
 	@Override
 	public void keyTyped(KeyEvent e){}
 	
-	public boolean isUpHeld(){
-		return upHeld;
+	public static boolean isUpHeld(){
+		return getInstance().upHeld;
 	}
 
-	public boolean isDownHeld() {
-		return downHeld;
+	public static boolean isDownHeld() {
+		return getInstance().downHeld;
 	}
 
-	public boolean isRightHeld() {
-		return rightHeld;
+	public static boolean isRightHeld() {
+		return getInstance().rightHeld;
 	}
 
-	public boolean isLeftHeld() {
-		return leftHeld;
+	public static boolean isLeftHeld() {
+		return getInstance().leftHeld;
 	}
 }

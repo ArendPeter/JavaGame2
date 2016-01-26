@@ -1,18 +1,12 @@
 import java.awt.Color;
 import java.awt.Graphics;
 
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel{
-
-	KeyboardController keyboard;
-	
-	int playerX = 10;
-	int playerY = 10;
+ 
+	Player player;
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Game");
@@ -29,8 +23,9 @@ public class GamePanel extends JPanel{
 	}
 
 	private GamePanel(){
-		keyboard = new KeyboardController();
-		this.addKeyListener(keyboard);
+		player = new Player(50,50);
+		
+		this.addKeyListener(KeyboardController.getInstance());
 		setFocusable(true);
 		requestFocus();
 		new Thread(){
@@ -47,49 +42,16 @@ public class GamePanel extends JPanel{
 			}
 		}.start();
 	}
-
+	
 	private void gameLoop(){
-		double sqrt2 = Math.sqrt(2);
-		boolean verticalInput = keyboard.isUpHeld() || keyboard.isDownHeld();
-		boolean horizontalInput = keyboard.isLeftHeld() || keyboard.isRightHeld();
-		
-		if(keyboard.isUpHeld()){
-			if(!horizontalInput){
-				playerY-=8;
-			}else{
-				playerY-= (int)(8 / sqrt2);
-			}
-		}
-		if(keyboard.isDownHeld()){
-			if(!horizontalInput){
-				playerY+=8;
-			}else{
-				playerY+= (int)(8 / sqrt2);
-			}
-		}
-		if(keyboard.isLeftHeld()){
-			if(!verticalInput){
-				playerX-=8;
-			}else{
-				playerX-= (int)(8 / sqrt2);
-			}
-		}
-		if(keyboard.isRightHeld()){
-			if(!verticalInput){
-				playerX+=8;
-			}else{
-				playerX+= (int)(8 / sqrt2);
-			}
-		}
+		player.gameLoop();
 	}
-
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
-
-		g.setColor(Color.ORANGE);
-		g.fillRect(playerX,playerY,50,50);
+			
+		player.draw(g);
 	}
 }
