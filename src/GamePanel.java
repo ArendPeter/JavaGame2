@@ -6,7 +6,19 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel{
  
-	Player player;
+	private Player player;
+	private Solid[] solids;
+	
+	//singleton
+	private static GamePanel instance;
+	
+	public static GamePanel getInstance(){
+		if(instance == null){
+			instance = new GamePanel();
+		}
+		return instance;
+	}
+	//////////
 	
 	public static void main(String[] args) {
 		JFrame frame = new JFrame("Game");
@@ -16,6 +28,7 @@ public class GamePanel extends JPanel{
 		frame.setLocationRelativeTo(null);
 
 		GamePanel panel = new GamePanel();
+		instance = panel;
 
 		frame.add(panel);
 
@@ -24,6 +37,13 @@ public class GamePanel extends JPanel{
 
 	private GamePanel(){
 		player = new Player(50,50);
+		
+		solids = new Solid[5];
+		solids[0] = new Solid(400,25,50,50);
+		solids[1] = new Solid(50,200,60,70);
+		solids[2] = new Solid(100,100);
+		solids[3] = new Solid(200,300);
+		solids[4] = new Solid(400,200);
 		
 		this.addKeyListener(KeyboardController.getInstance());
 		setFocusable(true);
@@ -48,10 +68,19 @@ public class GamePanel extends JPanel{
 	}
 
 	@Override
-	protected void paintComponent(Graphics g) {
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, getWidth(), getHeight());
+	protected void paintComponent(Graphics panelG) {
+		panelG.setColor(Color.WHITE);
+		panelG.fillRect(0, 0, getWidth(), getHeight());
 			
-		player.draw(g);
+		player.draw(panelG);
+		
+		for(int i=0; i<solids.length; i++){
+			solids[i].draw(panelG);
+		}
 	}
+
+	public Solid[] getSolids() {
+		return solids;
+	}
+	
 }
