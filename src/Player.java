@@ -68,6 +68,37 @@ public class Player {
 		int myRight = myLeft + width;
 		int myTop = y + dy;
 		int myBot = myTop + height;
+		
+		for(Solid solid : solids){
+			int sLeft = solid.getX();
+			int sRight = sLeft + solid.getWidth();
+			int sTop = solid.getY();
+			int sBot = sTop + solid.getHeight();
+			
+			boolean xOverlaps = myLeft < sRight && sLeft < myRight;
+			boolean yOverlaps = myTop < sBot && sTop < myBot;
+			if(xOverlaps && yOverlaps){
+				boolean yDidOverlap = myTop-dy < sBot && sTop < myBot-dy;
+				boolean horCollision = yDidOverlap;
+				if(horCollision){
+					if(myLeft < sLeft){//collision w/ left side of solid
+						x = sLeft - width;
+					}else{//collision w/ right side of solid
+						x = sRight;
+					}
+					dx = 0;
+				}else{
+					if(myTop < sTop){//collision w/ top of solid
+						y = sTop - height;
+					}else{//collision w/ bot of solid
+						y = sBot;
+					}
+					dy = 0;
+				}
+				
+				
+			}
+		}
 	}
 	
 	private void applyMovement(){

@@ -38,12 +38,12 @@ public class GamePanel extends JPanel{
 	private GamePanel(){
 		player = new Player(50,50);
 		
-		solids = new Solid[5];
-		solids[0] = new Solid(400,25,50,50);
-		solids[1] = new Solid(50,200,60,70);
+		solids = new Solid[1];
+		solids[0] = new Solid(400,400,64,64);
+		/*solids[1] = new Solid(50,200,60,70);
 		solids[2] = new Solid(100,100);
 		solids[3] = new Solid(200,300);
-		solids[4] = new Solid(400,200);
+		solids[4] = new Solid(400,200);*/
 		
 		this.addKeyListener(KeyboardController.getInstance());
 		setFocusable(true);
