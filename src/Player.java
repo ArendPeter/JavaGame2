@@ -6,6 +6,8 @@ public class Player {
 	private int dx, dy;
 	private int width, height;
 	
+	private int startX, startY;
+	
 	public Player(){
 		this(10,10);
 	}
@@ -15,6 +17,8 @@ public class Player {
 		this.y = y;
 		width = 50;
 		height = 50;
+		startX = x;
+		startY = y;
 	}
 	
 	public void gameLoop(){
@@ -63,12 +67,12 @@ public class Player {
 	}
 	
 	private void checkCollisions(){
-		Solid[] solids = GamePanel.getInstance().getSolids();
 		int myLeft = x + dx;
 		int myRight = myLeft + width;
 		int myTop = y + dy;
 		int myBot = myTop + height;
 		
+		Solid[] solids = GamePanel.getInstance().getSolids();
 		for(Solid solid : solids){
 			int sLeft = solid.getX();
 			int sRight = sLeft + solid.getWidth();
@@ -95,8 +99,21 @@ public class Player {
 					}
 					dy = 0;
 				}
-				
-				
+			}
+		}
+
+		Enemy[] enemies = GamePanel.getInstance().getEnemies();
+		for(Enemy enemy : enemies){
+			int sLeft = enemy.getX();
+			int sRight = sLeft + enemy.getWidth();
+			int sTop = enemy.getY();
+			int sBot = sTop + enemy.getHeight();
+			
+			boolean xOverlaps = myLeft < sRight && sLeft < myRight;
+			boolean yOverlaps = myTop < sBot && sTop < myBot;
+			if(xOverlaps && yOverlaps){
+				x = startX;
+				y = startY;
 			}
 		}
 	}

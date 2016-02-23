@@ -8,6 +8,7 @@ public class GamePanel extends JPanel{
  
 	private Player player;
 	private Solid[] solids;
+	private Enemy[] enemies;
 	
 	//singleton
 	private static GamePanel instance;
@@ -38,12 +39,14 @@ public class GamePanel extends JPanel{
 	private GamePanel(){
 		player = new Player(50,50);
 		
-		solids = new Solid[1];
+		solids = new Solid[3];
 		solids[0] = new Solid(400,400,64,64);
-		/*solids[1] = new Solid(50,200,60,70);
-		solids[2] = new Solid(100,100);
-		solids[3] = new Solid(200,300);
-		solids[4] = new Solid(400,200);*/
+		solids[1] = new Solid(100,400,64,64);
+		solids[2] = new Solid(400,100,64,64);
+		
+		enemies = new Enemy[2];
+		enemies[0] = new Enemy(200,400);
+		enemies[1] = new Enemy(400,200,false);
 		
 		this.addKeyListener(KeyboardController.getInstance());
 		setFocusable(true);
@@ -65,6 +68,9 @@ public class GamePanel extends JPanel{
 	
 	private void gameLoop(){
 		player.gameLoop();
+		for(int i = 0; i < enemies.length; i++){
+			enemies[i].gameLoop();
+		}
 	}
 
 	@Override
@@ -77,10 +83,18 @@ public class GamePanel extends JPanel{
 		for(int i=0; i<solids.length; i++){
 			solids[i].draw(panelG);
 		}
+		
+		for(int i = 0; i < enemies.length; i++){
+			enemies[i].draw(panelG);
+		}
 	}
 
 	public Solid[] getSolids() {
 		return solids;
+	}
+	
+	public Enemy[] getEnemies(){
+		return enemies;
 	}
 	
 }
