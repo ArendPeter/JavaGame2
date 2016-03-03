@@ -17,9 +17,9 @@ public class Player extends GameObject{
 	}
 	
 	public void gameLoop(){
-		getInputMovement();
-		checkCollisions();
-		applyMovement();
+		getInputMovement(); 
+		checkCollisions(); 
+		applyVelocity();
 	}
 	
 	private void getInputMovement(){
@@ -61,57 +61,35 @@ public class Player extends GameObject{
 		}
 	}
 	
-	private void checkCollisions(){
-		ArrayList<GameObject> objects = GamePanel.getInstance().getObjects();
-
-		int myLeft = x + dx;
-		int myRight = myLeft + width;
-		int myTop = y + dy;
-		int myBot = myTop + height;
-		
-		for(GameObject object : objects){
-			int sLeft = object.getX();
-			int sRight = sLeft + object.getWidth();
-			int sTop = object.getY();
-			int sBot = sTop + object.getHeight();
-			
-			boolean xOverlaps = myLeft < sRight && sLeft < myRight;
-			boolean yOverlaps = myTop < sBot && sTop < myBot;
-			if(xOverlaps && yOverlaps){
-				if(object instanceof Solid){
-					boolean yDidOverlap = myTop-dy < sBot && sTop < myBot-dy;
-					boolean horCollision = yDidOverlap;
-					if(horCollision){
-						if(myLeft < sLeft){//collision w/ left side of solid
-							x = sLeft - width;
-						}else{//collision w/ right side of solid
-							x = sRight;
-						}
-						dx = 0;
-					}else{
-						if(myTop < sTop){//collision w/ top of solid
-							y = sTop - height;
-						}else{//collision w/ bot of solid
-							y = sBot;
-						}
-						dy = 0;
-					}
+	protected void collideWith(GameObject object){
+		/*
+		if(object instanceof Solid){
+			boolean yDidOverlap = myTop-dy < sBot && sTop < myBot-dy;
+			boolean horCollision = yDidOverlap;
+			if(horCollision){
+				if(myLeft < sLeft){//collision w/ left side of solid
+					x = sLeft - width;
+				}else{//collision w/ right side of solid
+					x = sRight;
 				}
-				if(object instanceof Enemy){
-					x = startX;
-					y = startY;
+				dx = 0;
+			}else{
+				if(myTop < sTop){//collision w/ top of solid
+					y = sTop - height;
+				}else{//collision w/ bot of solid
+					y = sBot;
 				}
+				dy = 0;
 			}
 		}
-	}
-	
-	private void applyMovement(){
-		x += dx;
-		y += dy;
+		*/
+		if(object instanceof Enemy){
+			bounds.setLocation(startX, startY);
+		}
 	}
 	
 	public void draw(Graphics g){
 		g.setColor(Color.ORANGE);
-		g.fillRect(x,y,width,height);
+		g.fillRect(bounds.x,bounds.y,bounds.width,bounds.height);
 	}
 }
