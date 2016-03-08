@@ -1,6 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.awt.Rectangle;
 
 public class Player extends GameObject{
 	
@@ -62,27 +62,27 @@ public class Player extends GameObject{
 	}
 	
 	protected void collideWith(GameObject object){
-		/*
 		if(object instanceof Solid){
-			boolean yDidOverlap = myTop-dy < sBot && sTop < myBot-dy;
+			Rectangle oBounds = object.getBounds();
+			boolean yDidOverlap = bounds.getMinY() < oBounds.getMaxY() 
+					&& oBounds.getMinY() < bounds.getMaxY();
 			boolean horCollision = yDidOverlap;
 			if(horCollision){
-				if(myLeft < sLeft){//collision w/ left side of solid
-					x = sLeft - width;
+				if(bounds.getMinX() < oBounds.getMinX()){//collision w/ left side of solid
+					bounds.x = (int)oBounds.getMinX() - bounds.width;
 				}else{//collision w/ right side of solid
-					x = sRight;
+					bounds.x = (int)oBounds.getMaxX();
 				}
 				dx = 0;
 			}else{
-				if(myTop < sTop){//collision w/ top of solid
-					y = sTop - height;
+				if(bounds.getMinY() < oBounds.getMinY()){//collision w/ top of solid
+					bounds.y = (int)oBounds.getMinY() - bounds.height;
 				}else{//collision w/ bot of solid
-					y = sBot;
+					bounds.y = (int)oBounds.getMaxY();
 				}
 				dy = 0;
 			}
 		}
-		*/
 		if(object instanceof Enemy){
 			bounds.setLocation(startX, startY);
 		}
