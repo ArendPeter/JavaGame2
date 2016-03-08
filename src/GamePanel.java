@@ -47,6 +47,9 @@ public class GamePanel extends JPanel{
 		objects.add(new Enemy(200,400));
 		objects.add(new Enemy(400,200,false));
 		
+		objects.add(new Coin(200,400));
+		objects.add(new Coin(400,200));
+		
 		this.addKeyListener(KeyboardController.getInstance());
 		setFocusable(true);
 		requestFocus();

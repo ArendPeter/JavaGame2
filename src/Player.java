@@ -5,6 +5,12 @@ import java.awt.Rectangle;
 public class Player extends GameObject{
 	
 	private int startX, startY;
+	private int points=0;
+	
+	public void gainPoint(){
+		points++;
+		System.out.println(points);
+	}
 	
 	public Player(){
 		this(10,10);
