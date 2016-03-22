@@ -16,6 +16,7 @@ public class Coin extends GameObject {
 		if(object instanceof Player){
 			Player p = (Player)object;
 			p.gainPoint();
+			delete();
 		}
 	}
 	

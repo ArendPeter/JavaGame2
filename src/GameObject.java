@@ -1,21 +1,27 @@
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GameObject {
 	protected Rectangle bounds;
 	protected int dx, dy;
+	protected int id;
+
+	private static int next_id = 0;
 	
 	public GameObject(int x, int y){
-		bounds = new Rectangle(x,y,64,64);
-		dx = 0;
-		dy = 0;
+		this(x,y,64,64);
 	}
 	
 	public GameObject(int x, int y, int width, int height){
 		bounds = new Rectangle(x,y,width,height);
 		dx = 0;
 		dy = 0;
+		id = getNewID();
+	}
+
+	private static int getNewID(){
+		return next_id++;
 	}
 	
 	public void gameLoop(){}
@@ -23,12 +29,12 @@ public class GameObject {
 	public void draw(Graphics g){}
 	
 	protected void checkCollisions(){
-		ArrayList<GameObject> objects = GamePanel.getInstance().getObjects();
+		HashMap<Integer,GameObject> objects = GamePanel.getInstance().getObjects();
 
 		Rectangle newBounds = new Rectangle(bounds);
 		newBounds.translate(dx, dy);
 		
-		for(GameObject object : objects){
+		for(GameObject object : objects.values()){
 			Rectangle oBounds = object.getBounds();
 			
 			if(newBounds.intersects(oBounds)){
@@ -41,6 +47,10 @@ public class GameObject {
 	
 	protected void applyVelocity(){
 		bounds.translate(dx, dy);
+	}
+	
+	protected void delete(){
+		GamePanel.getInstance().removeObject(this);
 	}
 	
 	public int getX(){
@@ -61,5 +71,9 @@ public class GameObject {
 	
 	public Rectangle getBounds(){
 		return bounds;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

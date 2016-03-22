@@ -1,14 +1,16 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel{
 	
-	private ArrayList<GameObject> objects;
- 
+	private HashMap<Integer,GameObject> objects;
+	private ArrayList<GameObject> objectsToRemove;
+
 	//singleton
 	private static GamePanel instance;
 	
@@ -27,8 +29,7 @@ public class GamePanel extends JPanel{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
 
-		GamePanel panel = new GamePanel();
-		instance = panel;
+		GamePanel panel = GamePanel.getInstance(); 
 
 		frame.add(panel);
 
@@ -36,19 +37,23 @@ public class GamePanel extends JPanel{
 	}
 
 	private GamePanel(){
-		objects = new ArrayList<GameObject>();
+		instance = this;
 
-		objects.add(new Player(50,50));
+		objectsToRemove = new ArrayList<GameObject>();
+
+		objects = new HashMap<Integer,GameObject>();
+
+		addObject(new Player(50,50));
 		
-		objects.add(new Solid(400,400,64,64));
-		objects.add(new Solid(100,400,64,64));
-		objects.add(new Solid(400,100,64,64));
+		addObject(new Solid(400,400,64,64));
+		addObject(new Solid(100,400,64,64));
+		addObject(new Solid(400,100,64,64));
 		
-		objects.add(new Enemy(200,400));
-		objects.add(new Enemy(400,200,false));
+		addObject(new Enemy(200,400));
+		addObject(new Enemy(400,200,false));
 		
-		objects.add(new Coin(200,400));
-		objects.add(new Coin(400,200));
+		addObject(new Coin(200,400));
+		addObject(new Coin(400,200));
 		
 		this.addKeyListener(KeyboardController.getInstance());
 		setFocusable(true);
@@ -69,9 +74,13 @@ public class GamePanel extends JPanel{
 	}
 	
 	private void gameLoop(){
-		for(int i = 0; i < objects.size(); i++){
-			objects.get(i).gameLoop();
+		for(GameObject object : objects.values()){
+			object.gameLoop();
 		}
+		for(GameObject object : objectsToRemove){
+			objects.remove(object.getId());
+		}
+		objectsToRemove.clear();
 	}
 
 	@Override
@@ -79,13 +88,20 @@ public class GamePanel extends JPanel{
 		p.setColor(Color.WHITE);
 		p.fillRect(0, 0, getWidth(), getHeight());
 				
-		for(int i = 0; i < objects.size(); i++){
-			objects.get(i).draw(p);
+		for(GameObject object : objects.values()){
+			object.draw(p);
 		}
 	}
 
-	public ArrayList<GameObject> getObjects(){
+	public HashMap<Integer,GameObject> getObjects(){
 		return objects;
 	}
 	
+	private void addObject(GameObject obj){
+		objects.put(obj.getId(),obj);
+	}
+	
+	public void removeObject(GameObject obj){
+		objectsToRemove.add(obj);
+	}
 }
