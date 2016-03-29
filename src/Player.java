@@ -10,8 +10,6 @@ import javax.imageio.ImageIO;
 
 public class Player extends GameObject{
 	
-	private BufferedImage img;
-	
 	private int startX, startY;
 	private int points=0;
 	
@@ -24,12 +22,7 @@ public class Player extends GameObject{
 	}
 	
 	public Player(int x, int y){
-		super(x,y,50,50);
-		try{
-			img = ImageIO.read(new File("img/player.png"));
-		}catch(IOException e){
-			e.printStackTrace();
-		}
+		super(x,y,50,50,"player");
 		startX = x;
 		startY = y;
 	}

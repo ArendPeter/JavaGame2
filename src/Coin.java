@@ -8,15 +8,8 @@ import javax.imageio.ImageIO;
 
 public class Coin extends GameObject {
 
-	BufferedImage img;
-
 	public Coin(int x, int y){
-		super(x,y);
-		try{
-			img = ImageIO.read(new File("img/coin.png"));
-		}catch(IOException e){
-			e.printStackTrace();
-		}
+		super(x,y,"coin");
 	}
 	
 	public void gameLoop(){
