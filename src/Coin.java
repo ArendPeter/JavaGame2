@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 public class Coin extends GameObject {
 
 	public Coin(int x, int y){
-		super(x,y,"coin");
+		super(x,y,32,32,"coin");
 	}
 	
 	public void gameLoop(){
@@ -23,11 +23,6 @@ public class Coin extends GameObject {
 			p.gainPoint();
 			delete();
 		}
-	}
-	
-	
-	public void draw(Graphics h){
-		h.drawImage(img, bounds.x, bounds.y, null);
 	}
 	
 }

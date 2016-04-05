@@ -12,7 +12,6 @@ public class GameObject {
 	protected int dx, dy;
 	protected int id;
 	protected BufferedImage img;
-	
 
 	private static int next_id = 0;
 	
@@ -49,7 +48,9 @@ public class GameObject {
 	
 	public void gameLoop(){}
 	
-	public void draw(Graphics g){}
+	public void draw(Graphics g){
+		g.drawImage(img, bounds.x, bounds.y, null);
+	}
 	
 	protected void checkCollisions(){
 		HashMap<Integer,GameObject> objects = GamePanel.getInstance().getObjects();

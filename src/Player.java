@@ -22,7 +22,7 @@ public class Player extends GameObject{
 	}
 	
 	public Player(int x, int y){
-		super(x,y,50,50,"player");
+		super(x,y,64,64,"player");
 		startX = x;
 		startY = y;
 	}
@@ -100,7 +100,7 @@ public class Player extends GameObject{
 	}
 	
 	public void draw(Graphics g){
-		g.drawImage(img, bounds.x, bounds.y, null);
+		super.draw(g);
 
 		g.setColor(Color.BLACK);
 		Font font = new Font(null, Font.BOLD, 18);
