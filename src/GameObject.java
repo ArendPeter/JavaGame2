@@ -11,7 +11,7 @@ public class GameObject {
 	protected Rectangle bounds;
 	protected int dx, dy;
 	protected int id;
-	protected BufferedImage img;
+	protected String imgName;
 
 	private static int next_id = 0;
 	
@@ -28,18 +28,11 @@ public class GameObject {
 	}
 	
 	public GameObject(int x, int y, int width, int height, String imgName){
+		this.imgName = imgName;
 		bounds = new Rectangle(x,y,width,height);
 		dx = 0;
 		dy = 0;
 		id = getNewID();
-
-		if(!imgName.equals("")){
-			try{
-				img = ImageIO.read(new File("img/"+imgName+".png"));
-			}catch(IOException e){
-				e.printStackTrace();
-			}
-		}
 	}
 
 	private static int getNewID(){
@@ -49,7 +42,8 @@ public class GameObject {
 	public void gameLoop(){}
 	
 	public void draw(Graphics g){
-		g.drawImage(img, bounds.x, bounds.y, null);
+		g.drawImage(Resources.getInstance().getImage(imgName),
+			bounds.x, bounds.y, null);
 	}
 	
 	protected void checkCollisions(){

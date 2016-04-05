@@ -5,9 +5,7 @@ import java.awt.Rectangle;
 public class Enemy extends GameObject{
 	
 	public Enemy(int xx, int yy){
-		super(xx,yy,64,64);
-		dx = 4;
-		dy = 0;
+		this(xx,yy,true);
 	}
 	
 	public Enemy(int x, int y, boolean horizontal){

@@ -11,6 +11,19 @@ public class GamePanel extends JPanel{
 	private HashMap<Integer,GameObject> objects;
 	private ArrayList<GameObject> objectsToRemove;
 
+	char[][] level = {
+		{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'},
+		{'-', 'P', '-', '-', '-', '-', '-', 'S', '-', '-', '-', '-', '-'},
+		{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'},
+		{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'},
+		{'-', '-', '-', 'C', '-', '-', '-', 'V', '-', '-', '-', '-', '-'},
+		{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'},
+		{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'},
+		{'-', 'S', '-', 'H', '-', '-', '-', 'S', '-', '-', '-', '-', '-'},
+		{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'},
+		{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}
+	};
+
 	//singleton
 	private static GamePanel instance;
 	
@@ -42,19 +55,9 @@ public class GamePanel extends JPanel{
 		objectsToRemove = new ArrayList<GameObject>();
 
 		objects = new HashMap<Integer,GameObject>();
+		
+		initLevel();
 
-		addObject(new Player(50,50));
-		
-		addObject(new Solid(400,400,64,64));
-		addObject(new Solid(100,400,64,64));
-		addObject(new Solid(400,100,64,64));
-		
-		addObject(new Enemy(200,400));
-		addObject(new Enemy(400,200,false));
-		
-		addObject(new Coin(200,400));
-		addObject(new Coin(400,200));
-		
 		this.addKeyListener(KeyboardController.getInstance());
 		setFocusable(true);
 		requestFocus();
@@ -71,6 +74,29 @@ public class GamePanel extends JPanel{
 				}
 			}
 		}.start();
+	}
+	
+	private void initLevel(){
+		for(int i = 0; i < level.length; i++){
+			for(int j = 0; j < level[i].length; j++){
+				switch(level[i][j]){
+				case 'P':	addObject(new Player(j*64,i*64)); break;
+				}
+			}
+		}
+		/*
+		addObject(new Player(50,50));
+		
+		addObject(new Solid(400,400,64,64));
+		addObject(new Solid(100,400,64,64));
+		addObject(new Solid(400,100,64,64));
+		
+		addObject(new Enemy(200,400));
+		addObject(new Enemy(400,200,false));
+		
+		addObject(new Coin(200,400));
+		addObject(new Coin(400,200));
+		*/
 	}
 	
 	private void gameLoop(){
