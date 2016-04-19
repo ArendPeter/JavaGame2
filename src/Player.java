@@ -13,6 +13,10 @@ public class Player extends GameObject{
 	private int startX, startY;
 	private int points=0;
 	
+	private float frame = 0;
+	private int numFrames = 10;
+	private float frameSpeed = .20f;
+	
 	public void gainPoint(){
 		points++;
 	}
@@ -22,7 +26,7 @@ public class Player extends GameObject{
 	}
 	
 	public Player(int x, int y){
-		super(x,y,64,64,"player");
+		super(x,y,64,64,"player_anim");
 		startX = x;
 		startY = y;
 	}
@@ -31,6 +35,7 @@ public class Player extends GameObject{
 		getInputMovement(); 
 		checkCollisions(); 
 		applyVelocity();
+		updateFrame();
 	}
 	
 	private void getInputMovement(){
@@ -99,8 +104,30 @@ public class Player extends GameObject{
 		}
 	}
 	
+	private void updateFrame(){
+		if(dx < 0 || (dx == 0 && dy != 0)){
+			frame += frameSpeed;
+			if(frame >= numFrames){
+				frame -= numFrames;
+			}
+		}
+		if(dx > 0 ){
+			frame -= frameSpeed;
+			if(frame < 0){
+				frame += numFrames;
+			}
+		}
+	}
+	
 	public void draw(Graphics g){
-		super.draw(g);
+		//super.draw(g);
+		System.out.println(frame);
+		g.drawImage(Resources.getInstance().getImage(imgName), 
+				(int)bounds.getMinX(),(int)bounds.getMinY(),
+				(int)bounds.getMaxX(),(int)bounds.getMaxY(),
+				(int)frame * bounds.width, 0,
+				(int)(frame + 1) * bounds.width, bounds.height, 
+				null);
 
 		g.setColor(Color.BLACK);
 		Font font = new Font(null, Font.BOLD, 18);
