@@ -1,7 +1,4 @@
-import java.awt.Color;
 import java.awt.Graphics;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
