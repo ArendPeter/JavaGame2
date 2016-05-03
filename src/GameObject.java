@@ -47,7 +47,7 @@ public class GameObject {
 	}
 	
 	protected void checkCollisions(){
-		HashMap<Integer,GameObject> objects = GamePanel.getInstance().getObjects();
+		HashMap<Integer,GameObject> objects = GameManager.getInstance().getObjects();
 
 		Rectangle newBounds = new Rectangle(bounds);
 		newBounds.translate(dx, dy);
@@ -68,7 +68,7 @@ public class GameObject {
 	}
 	
 	protected void delete(){
-		GamePanel.getInstance().removeObject(this);
+		GameManager.getInstance().removeObject(this);
 	}
 	
 	public int getX(){

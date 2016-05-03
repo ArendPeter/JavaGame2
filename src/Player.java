@@ -15,7 +15,7 @@ public class Player extends GameObject{
 	
 	private float frame = 0;
 	private int numFrames = 10;
-	private float frameSpeed = .20f;
+	private float frameSpeed = .25f;
 	
 	public void gainPoint(){
 		points++;
@@ -56,7 +56,6 @@ public class Player extends GameObject{
 		if(KeyboardController.isDownHeld()){
 			if(!horizontalInput){
 				dy=8;
-				
 			}else{
 				dy=(int)(8 / sqrt2);
 			}
@@ -121,7 +120,6 @@ public class Player extends GameObject{
 	
 	public void draw(Graphics g){
 		//super.draw(g);
-		System.out.println(frame);
 		g.drawImage(Resources.getInstance().getImage(imgName), 
 				(int)bounds.getMinX(),(int)bounds.getMinY(),
 				(int)bounds.getMaxX(),(int)bounds.getMaxY(),
@@ -132,6 +130,6 @@ public class Player extends GameObject{
 		g.setColor(Color.BLACK);
 		Font font = new Font(null, Font.BOLD, 18);
 		g.setFont(font);
-		g.drawString(points+"", 10,20);
+		g.drawString(points+"",10,20);
 	}
 }
