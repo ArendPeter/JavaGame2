@@ -17,6 +17,7 @@ public class Level {
 				case 'S':	GameManager.getInstance().addObject(new Solid(j*64,i*64)); break;
 				case 'V':	GameManager.getInstance().addObject(new Enemy(j*64,i*64,false)); break;
 				case 'H':	GameManager.getInstance().addObject(new Enemy(j*64,i*64,true)); break;
+				case 'O':	GameManager.getInstance().addObject(new Portal(j*64,i*64,"Level2")); break;
 				}
 			}
 		}

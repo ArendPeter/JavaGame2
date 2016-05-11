@@ -8,6 +8,7 @@ public class GameManager {
 	
 	private HashMap<Integer,GameObject> objects;
 	private ArrayList<GameObject> objectsToRemove;
+	private ArrayList<GameObject> objectsToAdd;
 
 	private HashMap<String,Level> levels;
 
@@ -25,6 +26,7 @@ public class GameManager {
 		this.panel = panel;
 
 		objectsToRemove = new ArrayList<GameObject>();
+		objectsToAdd = new ArrayList<GameObject>();
 		objects = new HashMap<Integer,GameObject>();
 		
 		initLevel();
@@ -45,6 +47,8 @@ public class GameManager {
 	}	
 	
 	public void initLevel(){
+		levels = new HashMap<String, Level>();
+
 		char[][] lvlData = {
 			{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'},
 			{'-', 'P', '-', '-', '-', '-', '-', 'S', '-', '-', '-', '-', '-'},
@@ -54,7 +58,7 @@ public class GameManager {
 			{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'},
 			{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'},
 			{'-', 'S', '-', 'H', '-', '-', '-', 'S', '-', '-', '-', '-', '-'},
-			{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'},
+			{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', 'O', '-', '-'},
 			{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'}
 		};
 		levels.put("Level1",new Level(lvlData));
@@ -64,7 +68,7 @@ public class GameManager {
 			{'-', 'S', '-', 'H', '-', '-', '-', 'S', '-', '-', '-', '-', '-'},
 			{'-', 'C', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'},
 			{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'},
-			{'-', 'H', '-', 'C', '-', '-', '-', 'V', '-', '-', '-', '-', '-'},
+			{'-', 'V', '-', 'C', '-', '-', '-', 'V', '-', '-', '-', '-', '-'},
 			{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-'},
 			{'-', '-', '-', '-', '-', '-', '-', 'C', '-', '-', '-', '-', '-'},
 			{'-', 'S', '-', 'H', '-', '-', '-', 'S', '-', 'P', '-', '-', '-'},
@@ -84,6 +88,10 @@ public class GameManager {
 			objects.remove(object.getId());
 		}
 		objectsToRemove.clear();
+		for(GameObject object : objectsToAdd){
+			objects.put(object.getId(),object);
+		}
+		objectsToAdd.clear();
 	}
 	
 	public void draw(Graphics p){
@@ -100,7 +108,7 @@ public class GameManager {
 	}
 	
 	public void addObject(GameObject obj){
-		objects.put(obj.getId(),obj);
+		objectsToAdd.add(obj);
 	}
 	
 	public void removeObject(GameObject obj){
